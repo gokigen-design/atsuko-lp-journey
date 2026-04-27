@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>篤子さんLP制作の全工程｜チーム共有用</title>
+<title>篤子さん Intel Mac トラブル全記録｜チーム共有用</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -15,10 +15,11 @@
     --line: #E6DED5;
     --error: #C73E3A;
     --error-bg: #FCEDEC;
+    --warn: #B97A2A;
+    --warn-bg: #FBF1E0;
     --success: #4F8A4F;
     --success-bg: #EDF6ED;
     --quote: #F1ECE3;
-    --code: #2B2A27;
     --code-bg: #1F1E1B;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,7 +32,7 @@
     -webkit-font-smoothing: antialiased;
     letter-spacing: 0.03em;
   }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 60px 24px 120px; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 60px 24px 120px; }
 
   header.top {
     text-align: center;
@@ -51,17 +52,23 @@
     line-height: 1.6;
     margin-bottom: 18px;
   }
+  header.top .sub {
+    font-size: 16px;
+    color: var(--soft);
+    font-weight: 400;
+  }
   header.top p {
     color: var(--soft);
     font-size: 14px;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 660px;
+    margin: 18px auto 0;
   }
   header.top .meta {
     display: inline-flex;
+    flex-wrap: wrap;
     gap: 24px;
     margin-top: 24px;
-    padding: 12px 24px;
+    padding: 14px 24px;
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 4px;
@@ -69,6 +76,36 @@
     color: var(--soft);
   }
   header.top .meta b { color: var(--text); }
+
+  /* Spec card */
+  .spec {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 26px 30px;
+    margin-bottom: 50px;
+  }
+  .spec h2 {
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+  .spec table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .spec td {
+    padding: 8px 12px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .spec td:first-child {
+    width: 38%;
+    color: var(--soft);
+    font-weight: 500;
+  }
+  .spec tr:last-child td { border-bottom: none; }
 
   /* TOC */
   .toc {
@@ -90,7 +127,7 @@
   }
   .toc li {
     counter-increment: toc;
-    padding: 6px 0;
+    padding: 7px 0;
     font-size: 14px;
     border-bottom: 1px dashed var(--line);
   }
@@ -114,6 +151,7 @@
   }
   .tag.error { background: var(--error-bg); color: var(--error); }
   .tag.success { background: var(--success-bg); color: var(--success); }
+  .tag.warn { background: var(--warn-bg); color: var(--warn); }
 
   /* Step card */
   .step {
@@ -126,6 +164,7 @@
   }
   .step.error-step { border-left: 4px solid var(--error); }
   .step.success-step { border-left: 4px solid var(--success); }
+  .step.warn-step { border-left: 4px solid var(--warn); }
   .step-num {
     position: absolute;
     top: -14px;
@@ -140,6 +179,7 @@
   }
   .step.error-step .step-num { background: var(--error); }
   .step.success-step .step-num { background: var(--success); }
+  .step.warn-step .step-num { background: var(--warn); }
   .step h2 {
     font-size: 20px;
     font-weight: 700;
@@ -171,9 +211,7 @@
     font-weight: 700;
   }
 
-  .did {
-    margin: 16px 0;
-  }
+  .did { margin: 16px 0; }
   .did h3 {
     font-size: 13px;
     color: var(--accent);
@@ -181,9 +219,7 @@
     margin-bottom: 10px;
     font-weight: 700;
   }
-  .did ul {
-    list-style: none;
-  }
+  .did ul { list-style: none; }
   .did ul li {
     padding: 6px 0 6px 24px;
     position: relative;
@@ -215,6 +251,7 @@
   pre.code .cm { color: #8B7E6A; }
   pre.code .err { color: #FF8E8E; }
   pre.code .ok { color: #95D67A; }
+  pre.code .yel { color: #F2D27A; }
 
   .ss {
     margin: 18px 0;
@@ -223,11 +260,7 @@
     overflow: hidden;
     background: #f4efe8;
   }
-  .ss img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
+  .ss img { display: block; width: 100%; height: auto; }
   .ss .cap {
     padding: 10px 16px;
     font-size: 12px;
@@ -250,83 +283,85 @@
     font-size: 14px;
     line-height: 1.8;
   }
-  .alert.error {
-    background: var(--error-bg);
-    border-left: 4px solid var(--error);
-    color: #5a1715;
-  }
-  .alert.success {
-    background: var(--success-bg);
-    border-left: 4px solid var(--success);
-    color: #1f4720;
-  }
+  .alert.error { background: var(--error-bg); border-left: 4px solid var(--error); color: #5a1715; }
+  .alert.warn { background: var(--warn-bg); border-left: 4px solid var(--warn); color: #5a3a13; }
+  .alert.success { background: var(--success-bg); border-left: 4px solid var(--success); color: #1f4720; }
   .alert b { font-weight: 700; }
 
-  table.changes {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 16px 0;
+  .err-box {
+    background: #1F1E1B;
+    color: #FF8E8E;
+    padding: 14px 18px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Menlo, monospace;
     font-size: 13px;
-  }
-  table.changes th,
-  table.changes td {
-    border: 1px solid var(--line);
-    padding: 10px 14px;
-    text-align: left;
-    vertical-align: top;
-  }
-  table.changes th {
-    background: var(--quote);
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.1em;
+    margin: 12px 0;
+    border-left: 3px solid var(--error);
   }
 
-  .final {
+  .verdict {
     background: linear-gradient(135deg, #2B2A27 0%, #4A4540 100%);
     color: #fff;
     border-radius: 8px;
     padding: 40px 32px;
-    text-align: center;
     margin-top: 50px;
   }
-  .final h2 {
+  .verdict h2 {
     font-size: 22px;
     margin-bottom: 16px;
     color: #fff;
+    text-align: center;
   }
-  .final .url {
-    display: inline-block;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 14px 24px;
-    border-radius: 4px;
-    margin: 8px 0;
-    font-family: 'SF Mono', Menlo, monospace;
-    font-size: 13px;
+  .verdict .verdict-body {
+    background: rgba(255,255,255,0.06);
+    padding: 20px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.9;
     color: #E8DDC8;
-    word-break: break-all;
+    margin-top: 18px;
   }
-  .final a { color: #E8DDC8; text-decoration: underline; }
-  .final p { color: #d8d3cb; font-size: 14px; margin-top: 14px; }
+  .verdict .verdict-body b { color: #fff; }
 
-  .lessons {
+  .options {
     background: var(--quote);
     border-radius: 8px;
     padding: 28px 32px;
     margin-top: 40px;
   }
-  .lessons h2 {
-    font-size: 18px;
-    margin-bottom: 16px;
+  .options h2 { font-size: 18px; margin-bottom: 16px; }
+  .options table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 13px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
   }
-  .lessons ol {
-    padding-left: 20px;
-    font-size: 14px;
+  .options th, .options td {
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
   }
-  .lessons ol li {
-    margin-bottom: 10px;
+  .options th {
+    background: #f7f1e6;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
   }
+  .options td.judge-good { color: var(--success); font-weight: 700; }
+  .options td.judge-mid { color: var(--warn); font-weight: 700; }
+  .options td.judge-bad { color: var(--error); font-weight: 700; }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--soft);
+  }
+  .footer-note a { color: var(--accent); }
 
   @media (max-width: 640px) {
     .wrap { padding: 30px 16px 80px; }
@@ -343,374 +378,377 @@
 <div class="wrap">
 
 <header class="top">
-  <div class="label">PROJECT WALKTHROUGH</div>
-  <h1>篤子さんLP制作の全工程<br><span style="font-size:16px;color:var(--soft);font-weight:400;">— 制作開始から公開URL発行までのすべて —</span></h1>
-  <p>クライアント：長岡篤子さま（パーソナルスタイリスト・40〜50代女性向け）。<br>本ドキュメントは制作中の判断・つまずき・解決策をすべて時系列で記録したものです。</p>
+  <div class="label">TROUBLESHOOTING ARCHIVE</div>
+  <h1>篤子さん Intel Mac セットアップ全記録<br>
+  <span class="sub">— Gitインストール不可問題に対して試した全ての対処 —</span></h1>
+  <p>2026年4月18日のAIワークショップ当日、篤子さんのMacでGit（Command Line Tools）のインストールができず、Claude Codeを使ったLP制作が物理的に不可能でした。本ドキュメントは、当日その場で試した全ての対処と、なぜそれぞれが失敗したのかを時系列でまとめたものです。「PCの買い替えが本当に必要か」を判断するための一次資料として、チームで共有することを目的としています。</p>
   <div class="meta">
-    <span><b>制作期間：</b>2026/04/27（同日内）</span>
-    <span><b>納品形式：</b>GitHub Pages</span>
-    <span><b>使用ツール：</b>Claude Code / GitHub / gh CLI</span>
+    <span><b>発生日：</b>2026/04/18</span>
+    <span><b>対応者：</b>あや</span>
+    <span><b>結論：</b>当日中の解決は不可能</span>
   </div>
 </header>
 
+<div class="spec">
+  <h2>篤子さんのMacスペック</h2>
+  <table>
+    <tr><td>機種</td><td>MacBook Pro 13インチ（2020年モデル・中古購入）</td></tr>
+    <tr><td>プロセッサ</td><td><b>Intel Core i5</b>（Apple Siliconではない）</td></tr>
+    <tr><td>メモリ</td><td>16GB</td></tr>
+    <tr><td>OS</td><td>macOS Tahoe 26.0.1（最新）</td></tr>
+    <tr><td>キーボード</td><td>Touch Bar搭載モデル（<b>F3物理キーなし</b>）</td></tr>
+    <tr><td>購入経緯</td><td>中古購入のため、本人はIntel/Apple Siliconの区別を把握していなかった</td></tr>
+  </table>
+</div>
+
 <nav class="toc">
-  <h2>目次</h2>
+  <h2>試した対処の一覧（13項目）</h2>
   <ol>
-    <li><a href="#s1">クライアントフォルダの作成</a></li>
-    <li><a href="#s2">LP原稿（テキスト）受領</a></li>
-    <li><a href="#s3">v1：CELINE/STORY風の初稿LPを構築</a></li>
-    <li><a href="#s4">大理石ラグジュアリー版への方向転換依頼</a></li>
-    <li><a href="#s5">v2：マーブル＋ゴールドの高級版を構築</a></li>
-    <li><a href="#s6">「v2は好みではない、v1に戻して」<span class="tag error">PIVOT</span></a></li>
-    <li><a href="#s7">bd.jpg（実物大理石画像）をFV背景に統合</a></li>
-    <li><a href="#s8">people.png（女性シルエット）をビジュアル枠に統合</a></li>
-    <li><a href="#s9">完成URL要請 → サーバー停止エラー<span class="tag error">ERROR</span></a></li>
-    <li><a href="#s10">プレビューサーバーを再起動</a></li>
-    <li><a href="#s11">「篤子さんがモデリングしたい」共有方法を検討</a></li>
-    <li><a href="#s12">GitHub Pages公開：誤ってlp.htmlを削除<span class="tag error">CRITICAL</span></a></li>
-    <li><a href="#s13">git checkoutで復旧</a></li>
-    <li><a href="#s14">index.htmlへリネーム → リモート作成 → push</a></li>
-    <li><a href="#s15">GitHub Pages有効化・公開URL発行<span class="tag success">DONE</span></a></li>
+    <li><a href="#s1">Claude Codeのインストール／自動アップデート（v2.6）</a><span class="tag success">OK</span></li>
+    <li><a href="#s2">ターミナルで <code>git --version</code> 実行</a><span class="tag warn">警告</span></li>
+    <li><a href="#s3">入力ミス系の試行（gitgit／git--version／git --install）</a><span class="tag error">FAIL</span></li>
+    <li><a href="#s4">Claude Codeを再インストール（curl install.sh）</a><span class="tag error">FAIL</span></li>
+    <li><a href="#s5"><code>xcode-select --install</code> → 「インストール」クリック</a><span class="tag error">CRITICAL</span></li>
+    <li><a href="#s6">時間を置いてから再度 <code>xcode-select --install</code></a><span class="tag error">FAIL</span></li>
+    <li><a href="#s7">GitHub Desktop（Apple Silicon版）をダウンロード</a><span class="tag error">FAIL</span></li>
+    <li><a href="#s8">「このMacについて」でアーキテクチャ確認</a><span class="tag success">判明</span></li>
+    <li><a href="#s9">GitHub Desktop（Intel版）をダウンロードし直し</a><span class="tag warn">部分OK</span></li>
+    <li><a href="#s10">GitHub Desktop経由で再度 <code>git --version</code></a><span class="tag error">FAIL</span></li>
+    <li><a href="#s11">F3キーでMission Controlを開いて隠れたポップアップを探す</a><span class="tag error">FAIL</span></li>
+    <li><a href="#s12">Homebrew（brew install git）の検討</a><span class="tag error">不可</span></li>
+    <li><a href="#s13">方針転換：当日の作業を別ツール（Google）に切り替え</a><span class="tag success">PIVOT</span></li>
   </ol>
 </nav>
 
 <!-- ============================ STEP 1 ============================ -->
-<section class="step" id="s1">
+<section class="step success-step" id="s1">
   <div class="step-num">STEP 01</div>
-  <div class="when">— PROJECT START —</div>
-  <h2>クライアントフォルダの作成</h2>
+  <div class="when">— ワークショップ開始直後 —</div>
+  <h2>Claude Code のインストール／自動アップデート</h2>
   <div class="quote">
     <span class="who">あや</span>
-    こちら、新しく「クライアント」というフォルダの中にお名前を入れて、フォルダを作っておいてください。
+    Cloud Codeの方でバージョンアップ…2.6か何かしらにアップデートされた…その後にGitが必要と出て、前に進むことができません。
   </div>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>結果</h3>
     <ul>
-      <li>「クライアント／篤子さん」フォルダを作成</li>
-      <li>制作物の置き場として運用開始</li>
+      <li>Claude Code自体は問題なくインストール完了（v2.6）</li>
+      <li>ここまでは順調 → 次の一歩でGitが必要と判明</li>
     </ul>
   </div>
-  <pre class="code">$ mkdir -p "/Users/ayaka/ai_camp_cc/クライアント/篤子さん"</pre>
 </section>
 
 <!-- ============================ STEP 2 ============================ -->
-<section class="step" id="s2">
+<section class="step warn-step" id="s2">
   <div class="step-num">STEP 02</div>
-  <h2>LP原稿（テキスト）受領</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    LP文章 叩き台（セクション別）<br>
-    【ヒーロー】私史上いちばん好きな自分に出会えるスタイリングを<br>
-    【共感】クローゼットは満たされているのに、心は満たされない。<br>
-    【未来】こんなあなたへ／【サービス】ショッピング同行 ¥27,000〜<br>
-    【プロフィール】長岡篤子（ながおか あつこ）<br>
-    ……（全セクション原稿）
+  <h2>ターミナルで <code>git --version</code> 実行</h2>
+<pre class="code">$ git --version
+<span class="yel">xcode-select: note: No developer tools were found, requesting install.</span></pre>
+  <div class="alert warn">
+    <b>状況：</b>Gitが入っていないため、xcode-selectが自動的にCommand Line Toolsのインストールを要求するポップアップを表示。ここまではmacOSの想定動作通り。
   </div>
-  <div class="did">
-    <h3>やったこと</h3>
-    <ul>
-      <li>原稿を全セクションでHTML構成に落とし込み</li>
-      <li>ヒーロー／共感／未来／導線／サービス／プロフィール／声／FAQ／CTA／フッター の構成で固める</li>
-    </ul>
+  <div class="ss">
+    <img src="screenshots_intel_mac/01_L6812_1.jpg" alt="terminal showing git --version with xcode-select message">
+    <div class="cap">篤子さんから送られてきたターミナル画面（Step 02時点）</div>
   </div>
 </section>
 
 <!-- ============================ STEP 3 ============================ -->
-<section class="step" id="s3">
+<section class="step error-step" id="s3">
   <div class="step-num">STEP 03</div>
-  <h2>v1：CELINE/STORY風の初稿LPを構築</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    HTMLでLPを作る（STORY/CELINE風デザイン）
-  </div>
+  <h2>入力ミス系の試行</h2>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>試したコマンド（すべて command not found）</h3>
     <ul>
-      <li>カラー：ベージュ#FAF7F2／ダーク#2B2A27／アクセント#8B7E6A</li>
-      <li>明朝＋セリフ（Shippori Mincho／Cormorant Garamond）でSTORY誌の落ち着き感</li>
-      <li>IntersectionObserverでフェードイン。スマホ縦並び対応</li>
-      <li>ローカルサーバー（port 8120）で初稿プレビュー</li>
+      <li><code>gitgit --version</code></li>
+      <li><code>git--version</code>（スペース無し）</li>
+      <li><code>git --install</code></li>
     </ul>
   </div>
-  <div class="ss">
-    <img src="screenshots/v1_first.jpg" alt="v1 first version preview">
-    <div class="cap">v1初稿のプレビュー（CELINE/STORY風・落ち着いたベージュトーン）</div>
+  <div class="alert error">
+    <b>結果：</b>正しいコマンドではないため当然エラー。「タイポではなく根本的にgitが入っていない」ことを再確認。
   </div>
 </section>
 
 <!-- ============================ STEP 4 ============================ -->
-<section class="step" id="s4">
+<section class="step error-step" id="s4">
   <div class="step-num">STEP 04</div>
-  <h2>大理石ラグジュアリー版への方向転換依頼</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    こちらのようなベージュやゴールドなど、落ち着いたカラーを基盤として、大理石のような素材を入れ込んでほしいです。所々にゴールドなどのあしらいを使い、高級感と40-50代の女性に受け入れていただけるような美しいサイトにしてください。今、写真が入るところがとても少ないので、スタイリストらしい写真を散りばめるセクションをもうちょっと増やしてください。
-  </div>
-  <div class="ss">
-    <img src="screenshots/01_user_attached.jpg" alt="user reference image - marble luxury">
-    <div class="cap">あやが添付した参考画像（マーブル＋ゴールドのラグジュアリーな世界観）</div>
+  <h2>Claude Codeを再インストール（curl install.sh）</h2>
+<pre class="code">$ curl -fsSL https://claude.ai/install.sh | sh
+<span class="cm"># Claude Code自体は再インストールされたが、gitの問題は別レイヤー</span></pre>
+  <div class="alert error">
+    <b>結果：</b>Claude Codeを入れ直してもgitは別途必要なため、何も変わらず。「Claude Code側の問題ではない」ことが確定。
   </div>
 </section>
 
 <!-- ============================ STEP 5 ============================ -->
-<section class="step" id="s5">
-  <div class="step-num">STEP 05</div>
-  <h2>v2：マーブル＋ゴールドの高級版を構築</h2>
-  <div class="did">
-    <h3>やったこと</h3>
-    <ul>
-      <li>CSSラジアルグラデ＋SVGノイズで大理石風テクスチャを再現</li>
-      <li>ゴールド罫線・装飾シンボル・モノグラム的バッジを追加</li>
-      <li>写真枠（ポラロイド風／縦長／円形クロップ）を増設</li>
-    </ul>
+<section class="step error-step" id="s5">
+  <div class="step-num">CRITICAL 05</div>
+  <h2><code>xcode-select --install</code> → 「インストール」クリック</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    『このソフトウェアは現在ソフトウェアアップデートサーバーから入手できないため、インストールできません』というポップアップが出ました。
   </div>
-  <div class="ss">
-    <img src="screenshots/v2_luxury_rejected.jpg" alt="v2 luxury rejected version">
-    <div class="cap">v2マーブル＋ゴールド版（このあと不採用となります）</div>
+  <div class="err-box">エラー：このソフトウェアは現在ソフトウェアアップデートサーバーから入手できないため、インストールできません。</div>
+  <div class="ss-grid">
+    <div class="ss">
+      <img src="screenshots_intel_mac/02_L6818_1.jpg" alt="xcode-select install popup 1">
+      <div class="cap">xcode-selectの「インストール」ポップアップ</div>
+    </div>
+    <div class="ss">
+      <img src="screenshots_intel_mac/03_L6818_2.png" alt="xcode-select install popup 2 - Apple server error">
+      <div class="cap">「インストール」を押した直後に出たエラー画面</div>
+    </div>
+  </div>
+  <div class="alert error">
+    <b>これが今回の最大の壁：</b>Appleの公式インストールサーバーから Command Line Tools が「入手できない」と返される。ユーザー側の操作ミスではなく、Apple側のサーバーがこのMac構成（Intel × macOS Tahoe 26.0.1）に対応するパッケージを配信していない可能性。
   </div>
 </section>
 
 <!-- ============================ STEP 6 ============================ -->
 <section class="step error-step" id="s6">
-  <div class="step-num">PIVOT 06</div>
-  <h2>「v2は好みではない、v1に戻して」</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    こちらのデザインはあんまり好みではないので、1個目のものに戻してください。こちらはもう使いません。
-  </div>
-  <div class="alert error">
-    <b>判断ポイント：</b>「方向性が違う」と判明した時点で迷わずv1へロールバック。CSSの装飾や追加セクションは捨て、初稿の構成だけを残しました。
-  </div>
+  <div class="step-num">STEP 06</div>
+  <h2>時間を置いてから再度 <code>xcode-select --install</code></h2>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>結果</h3>
     <ul>
-      <li>lp.html をv1（CELINE/STORY風）に書き戻し</li>
-      <li>マーブル装飾・ゴールド罫線・追加写真枠は全て削除</li>
+      <li>同じ「ソフトウェアアップデートサーバーから入手できない」エラーが再発</li>
+      <li>一時的なサーバー障害ではないことが判明</li>
     </ul>
+  </div>
+  <div class="ss-grid">
+    <div class="ss">
+      <img src="screenshots_intel_mac/06_L6854_1.jpg" alt="terminal after retry">
+      <div class="cap">2回目以降のターミナル状態</div>
+    </div>
+    <div class="ss">
+      <img src="screenshots_intel_mac/07_L6854_2.png" alt="browser state">
+      <div class="cap">ブラウザでGitHub Desktopを探し始めた瞬間</div>
+    </div>
   </div>
 </section>
 
 <!-- ============================ STEP 7 ============================ -->
-<section class="step" id="s7">
+<section class="step error-step" id="s7">
   <div class="step-num">STEP 07</div>
-  <h2>bd.jpg（実物大理石画像）をFV背景に統合</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    あつこさんのフォルダ内に「BD」というJPEGの大理石の背景画像を入れました。これをファーストビューの背景として設定してください。
-  </div>
+  <h2>GitHub Desktop（Apple Silicon版）をダウンロード</h2>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>狙い</h3>
     <ul>
-      <li>v1の構成を維持したまま、ヒーローの背景に bd.jpg を敷く</li>
-      <li>テキストの可読性を担保するため、白の半透明グラデーションをオーバーレイ</li>
+      <li>xcode-selectがダメなら、GitHub Desktop経由でgitを入れられないか試す</li>
+      <li>desktop.github.com の緑のダウンロードボタン（デフォルトでApple Silicon版）を押した</li>
     </ul>
   </div>
-<pre class="code">.hero {
-  background-image: url('bd.jpg');
-  background-size: cover;
-  background-position: center;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-    rgba(250, 247, 242, 0.55) 0%,
-    rgba(250, 247, 242, 0.35) 100%);
-}</pre>
+  <div class="quote">
+    <span class="who">あや</span>
+    紫色に丸にバッテンみたいなアイコン……『アプリケーション "GitHub Desktop" はこのMacには対応していないため開けません』
+  </div>
+  <div class="err-box">エラー：アプリケーション "GitHub Desktop" はこのMacには対応していないため開けません。</div>
   <div class="ss">
-    <img src="screenshots/v3_with_bd.jpg" alt="v3 with bd.jpg as hero">
-    <div class="cap">FV背景に実物の大理石画像（bd.jpg）が入った状態</div>
+    <img src="screenshots_intel_mac/04_L6836_1.jpg" alt="github desktop download page">
+    <div class="cap">GitHub Desktopのダウンロードページ（最初はApple Silicon版を踏んでしまった）</div>
+  </div>
+  <div class="alert error">
+    <b>原因：</b>中古Macなのでご本人がIntel/Apple Siliconを認識しておらず、デフォルトのApple Silicon版を入れてしまった。
   </div>
 </section>
 
 <!-- ============================ STEP 8 ============================ -->
-<section class="step" id="s8">
+<section class="step success-step" id="s8">
   <div class="step-num">STEP 08</div>
-  <h2>people.png（女性シルエット）をビジュアル枠に統合</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    して、写真を入れるところに、フォルダー内のPeopleという画像を入れ込んでください。
-  </div>
+  <h2>「このMacについて」でアーキテクチャ確認</h2>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>確認した内容</h3>
     <ul>
-      <li>透過PNG（people.png）をヒーローのビジュアル枠＋プロフィールセクションに配置</li>
-      <li>背景色をベージュトーンに合わせ、シルエットが浮かないよう調整</li>
+      <li>アップルメニュー → このMacについて</li>
+      <li>プロセッサ：<b>Intel Core i5</b>（Apple Siliconではない）</li>
+      <li>OS：macOS Tahoe 26.0.1（最新）</li>
+      <li>メモリ：16GB</li>
     </ul>
   </div>
-<pre class="code">.hero-visual {
-  background-color: #E8E1D3;
-  background-image: url('people.png'),
-                    linear-gradient(135deg, #E8E1D3 0%, #D4C9B3 100%);
-  background-size: 110% auto, cover;
-  background-position: center bottom, center;
-}</pre>
   <div class="ss">
-    <img src="screenshots/v4_with_people.jpg" alt="v4 with people.png">
-    <div class="cap">people.png（透過シルエット）が入った最終状態</div>
+    <img src="screenshots_intel_mac/05_L6848_1.jpg" alt="about this mac screen">
+    <div class="cap">「このMacについて」画面（Intel × Tahoe 26.0.1 × 16GB が確定）</div>
   </div>
 </section>
 
 <!-- ============================ STEP 9 ============================ -->
-<section class="step error-step" id="s9">
-  <div class="step-num">ERROR 09</div>
-  <h2>完成URL要請 → サーバー停止エラー</h2>
-  <div class="quote">
-    <span class="who">あや</span>
-    篤子さんの決まったLPのリンク教えて
-  </div>
-  <p style="margin:14px 0;font-size:14px;">ローカルプレビュー（http://localhost:8120/）のURLを共有しようとしたところ、画面側で接続エラーが発生：</p>
-  <div class="ss">
-    <img src="screenshots/04_user_attached.png" alt="ERR_CONNECTION_REFUSED screenshot">
-    <div class="cap">あやから共有された画面：ERR_CONNECTION_REFUSED</div>
-  </div>
-  <div class="alert error">
-    <b>原因：</b>ローカルのPython http.serverプロセスが落ちていた（セッションが長くなるとMCPプレビューサーバーは停止することがある）。
+<section class="step warn-step" id="s9">
+  <div class="step-num">STEP 09</div>
+  <h2>GitHub Desktop（Intel版）をダウンロードし直し</h2>
+<pre class="code"><span class="cm"># Intel Mac専用URL（darwin-x64）から再ダウンロード</span>
+https://central.github.com/deployments/desktop/desktop/latest/<span class="yel">darwin-x64</span></pre>
+  <div class="did">
+    <h3>結果</h3>
+    <ul>
+      <li>Intel版GitHub Desktopは <b>無事にインストール成功</b>・起動もOK</li>
+      <li>「アーキテクチャ問題」だけは解消</li>
+    </ul>
   </div>
 </section>
 
 <!-- ============================ STEP 10 ============================ -->
-<section class="step" id="s10">
+<section class="step error-step" id="s10">
   <div class="step-num">STEP 10</div>
-  <h2>プレビューサーバーを再起動</h2>
+  <h2>GitHub Desktop経由で再度 <code>git --version</code></h2>
   <div class="did">
-    <h3>やったこと</h3>
+    <h3>狙い</h3>
     <ul>
-      <li>MCPの <code>preview_start</code> で「atsuko-lp」を再起動</li>
-      <li>新しいserverIdを発行・port 8120でローカル復活</li>
+      <li>GitHub Desktopが入ったので、内部でgitバイナリが付いてくることを期待</li>
+      <li>ターミナルで <code>git --version</code> を再実行</li>
     </ul>
   </div>
-  <pre class="code"><span class="cm"># MCP Claude_Preview経由</span>
-preview_start({ name: "atsuko-lp" })
-<span class="ok">→ serverId: 27f1c2c1-72ea-46dd-a4f3-967a060326fe</span>
-<span class="ok">→ http://localhost:8120/lp.html</span></pre>
+<pre class="code">$ git --version
+<span class="yel">xcode-select: note: No developer tools were found, requesting install.</span>
+<span class="cm"># → またxcode-selectのポップアップ → 同じApple Serverエラー</span></pre>
+  <div class="alert error">
+    <b>結果：</b>GitHub Desktop内蔵のgitはアプリ内部用で、ターミナルからの <code>git</code> コマンドには使われなかった。結局Command Line Toolsが必要 → 同じApple Serverエラーで詰まる。<b>堂々巡り</b>。
+  </div>
 </section>
 
 <!-- ============================ STEP 11 ============================ -->
-<section class="step" id="s11">
+<section class="step error-step" id="s11">
   <div class="step-num">STEP 11</div>
-  <h2>「篤子さんがモデリングしたい」共有方法を検討</h2>
+  <h2>F3キーでMission Controlを開いて隠れたポップアップを探す</h2>
   <div class="quote">
     <span class="who">あや</span>
-    篤子さんがこれをモデリングして作りたいみたいなのだけど、何をお渡しすれば良いかな？おそらく篤子さんはブラウザなのでフォルダとかの共有がよくわからん
+    お客さんのパソコンにF3のキーがないタイプのパソコンです。5、6年前のモデル……
   </div>
   <div class="did">
-    <h3>提示した3案</h3>
+    <h3>試した代替操作</h3>
     <ul>
-      <li><b>A：GitHub Pagesで公開 → URL共有</b>（ブラウザだけで完結）</li>
-      <li>B：ZIPで素材一式を渡す（解凍 → ダブルクリック）</li>
-      <li>C：Vercelデプロイ＋ギガファイル便で素材送付</li>
+      <li>Touch Bar搭載モデルなのでF3物理キーがない</li>
+      <li>3本指で上スワイプ → 何も隠れていないことを確認</li>
+      <li>Cmd+Tab、Cmd+↑も試行 → インストール進行中の画面は存在せず</li>
     </ul>
   </div>
-  <div class="quote">
-    <span class="who">あや</span>
-    aを作って
+  <div class="alert error">
+    <b>結果：</b>裏でこっそり進行している処理はなかった。Step 05のエラーで本当に止まっていることが確定。
+  </div>
+  <div class="ss">
+    <img src="screenshots_intel_mac/08_L6920_1.png" alt="another screenshot">
+    <div class="cap">この時点での画面状態（背後に何も動いていない）</div>
   </div>
 </section>
 
 <!-- ============================ STEP 12 ============================ -->
 <section class="step error-step" id="s12">
-  <div class="step-num">CRITICAL 12</div>
-  <h2>GitHub Pages公開：誤ってlp.htmlを削除</h2>
+  <div class="step-num">STEP 12</div>
+  <h2>Homebrew（brew install git）の検討</h2>
   <div class="did">
-    <h3>意図していた作業</h3>
+    <h3>検討内容</h3>
     <ul>
-      <li>lp.html → index.html にリネーム（GitHub Pagesは index.html を自動配信するため）</li>
+      <li>Homebrewを入れて <code>brew install git</code> という案も検討</li>
+      <li>しかし <b>HomebrewのインストールにもCommand Line Toolsが必須</b></li>
+      <li>つまり同じApple Serverエラーで先に進めない</li>
     </ul>
   </div>
-  <pre class="code"><span class="cm"># 実行してしまったコマンド列（問題あり）</span>
-mv lp.html index.html.bak
-cp index.html.bak index.html
-<span class="cm"># …別作業を挟んだあと…</span>
-rm -f index.html.bak index.html  <span class="err">← lp.htmlの実体を消失</span>
-git mv lp.html index.html        <span class="err">← fatal: bad source, source=lp.html</span></pre>
   <div class="alert error">
-    <b>何が起きたか：</b>「mv → cp → rm」の流れで、本体ファイル（lp.html）の実体ごと削除してしまった。次の git mv が「lp.htmlが存在しない」というエラーで失敗。
-  </div>
-  <div class="alert error">
-    <b>教訓：</b>リネームは <code>git mv lp.html index.html</code> 一発で済む。中間ファイル（.bak）は作らない。バックアップを取りたい場合も <code>cp</code> でなく <code>git mv</code> 後にcommitしてHEADから戻せる状態にする。
+    <b>結論：</b>「Command Line Toolsを入れるためにCommand Line Toolsが要る」という構造的なデッドロック。<b>当日中に試せる選択肢は出尽くした</b>。
   </div>
 </section>
 
 <!-- ============================ STEP 13 ============================ -->
 <section class="step success-step" id="s13">
-  <div class="step-num">RECOVERY 13</div>
-  <h2>git checkoutで復旧</h2>
+  <div class="step-num">PIVOT 13</div>
+  <h2>方針転換：当日の作業を別ツールに切り替え</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    今日は少し難しいということなので、方向性を変えて、Claude CodeでLPを作るのではなく、他のツール……今回はGoogleスケッチで説明することに決定しました。
+  </div>
   <div class="did">
-    <h3>復旧手順</h3>
+    <h3>当日の最終方針</h3>
     <ul>
-      <li>幸い直前に <code>git init</code> と最初のcommit（hash: 6a2fb4b）を済ませていた</li>
-      <li><code>git checkout lp.html</code> でHEADから実体を復元</li>
-      <li>3点（lp.html / bd.jpg / people.png）が揃っていることを確認</li>
+      <li>篤子さんのMacでのClaude Code利用は当日不可と判断</li>
+      <li>その場ではGoogle系ツールでイメージ共有のみ実施</li>
+      <li>LP本体は <b>あやが代わりに制作</b>して納品（=今回 GitHub Pages で公開済みのもの）</li>
+      <li>Claude Code導入は <b>PC環境が整ってから</b>あらためてサポート</li>
     </ul>
   </div>
-<pre class="code">$ git checkout lp.html
-<span class="ok">Updated 1 path from the index</span>
-
-$ ls
-bd.jpg    lp.html    people.png</pre>
   <div class="alert success">
-    <b>救われた理由：</b>事前に <code>git init</code> → 初回コミットを済ませていたため、ワーキングディレクトリで消えてもインデックスに実体が残っていた。<b>「とりあえずgit init＋初回commit」は最強のセーフティネット。</b>
+    <b>納品済みLP：</b>
+    <a href="https://gokigen-design.github.io/atsuko-nagaoka-lp/" target="_blank">https://gokigen-design.github.io/atsuko-nagaoka-lp/</a>
   </div>
 </section>
 
-<!-- ============================ STEP 14 ============================ -->
-<section class="step" id="s14">
-  <div class="step-num">STEP 14</div>
-  <h2>index.htmlへリネーム → リモート作成 → push</h2>
-<pre class="code">$ git mv lp.html index.html
-$ git commit -m "Rename to index.html for GitHub Pages"
-<span class="ok">[main 86da98e] Rename to index.html for GitHub Pages</span>
-
-$ gh repo create gokigen-design/atsuko-nagaoka-lp --public --source=. --push
-<span class="ok">https://github.com/gokigen-design/atsuko-nagaoka-lp</span>
-<span class="ok">[new branch] HEAD -> main</span></pre>
-  <div class="did">
-    <h3>ポイント</h3>
-    <ul>
-      <li>所属org：<b>gokigen-design</b>（あやの公開用GitHub組織）</li>
-      <li>リポジトリ名：<b>atsuko-nagaoka-lp</b>（クライアント名のローマ字）</li>
-      <li>1コマンドでリモート作成＋pushまで完了</li>
-    </ul>
+<!-- ============================ INSTRUCTOR REPLY ============================ -->
+<section class="step warn-step">
+  <div class="step-num">REFERENCE</div>
+  <h2>講師からの回答（4/19・Slack経由）</h2>
+  <div class="quote">
+    <span class="who">講師（茶花AI勉強会）</span>
+    買い換える必要はないと思いますが、Claude Chat で今のエラーを聞いて解決するまでゴニョゴニョするが最短かなと。もしくは買い替えていいなら買い替えてしまうのもアリですね。
+  </div>
+  <div class="alert warn">
+    <b>講師の見解：</b>「絶対に買い替えが必要」とは言っていないが、「Claude Chatで根気よくデバッグするのが最短」という回答。つまり<b>確実な解決策はない</b>状態。
   </div>
 </section>
 
-<!-- ============================ STEP 15 ============================ -->
-<section class="step success-step" id="s15">
-  <div class="step-num">DONE 15</div>
-  <h2>GitHub Pages有効化・公開URL発行</h2>
-<pre class="code">$ gh api -X POST /repos/gokigen-design/atsuko-nagaoka-lp/pages \
-    -f "source[branch]=main" -f "source[path]=/"
-<span class="ok">{
-  "html_url": "https://gokigen-design.github.io/atsuko-nagaoka-lp/",
-  "build_type": "legacy",
-  "https_enforced": true
-}</span></pre>
-  <div class="alert success">
-    <b>反映時間：</b>初回ビルドは1〜2分。以降は <code>git push</code> するたびに自動デプロイ。
+<!-- ============================ VERDICT ============================ -->
+<div class="verdict">
+  <h2>当日の結論サマリー</h2>
+  <div class="verdict-body">
+    <p><b>13通りの対処を試みたが、いずれもAppleのソフトウェアアップデートサーバーが Command Line Tools を配信してくれないことに起因する根本問題に阻まれた。</b></p>
+    <p style="margin-top:14px;">原因はユーザーの操作ミスでも、Claude Code側の問題でもなく、<b>Apple側のサーバーが Intel × macOS Tahoe 26.0.1 という組み合わせに必要なパッケージを配信していない</b>こと。これは個人の努力では解決不可能な領域。</p>
   </div>
-</section>
-
-<!-- ============================ FINAL ============================ -->
-<div class="final">
-  <h2>納品URL（公開済み）</h2>
-  <div class="url"><a href="https://gokigen-design.github.io/atsuko-nagaoka-lp/" target="_blank">https://gokigen-design.github.io/atsuko-nagaoka-lp/</a></div>
-  <p>リポジトリ：<a href="https://github.com/gokigen-design/atsuko-nagaoka-lp" target="_blank">github.com/gokigen-design/atsuko-nagaoka-lp</a></p>
-  <p>クライアントへはURLだけ送ればブラウザで完結します。</p>
 </div>
 
-<!-- ============================ LESSONS ============================ -->
-<div class="lessons">
-  <h2>チームに共有したい教訓</h2>
-  <ol>
-    <li><b>方向性のピボットは早く・きれいに：</b>v2が刺さらなかった時点で即v1ロールバック。装飾は思い切って捨てる。</li>
-    <li><b>素材は段階的に統合する：</b>まず構成→次に背景画像（bd.jpg）→次に人物画像（people.png）の順。一気に入れると問題切り分けができない。</li>
-    <li><b>「git initと最初のcommit」を最初に済ませる：</b>これが今回の救命綱だった。誤削除してもHEADから戻せる。</li>
-    <li><b>リネームは <code>git mv</code> 一発：</b>mv→cp→rmの中間ファイル運用は事故のもと。</li>
-    <li><b>クライアントがブラウザ派なら GitHub Pages URL がベスト：</b>ZIP配布より「URLだけ」の方が誤操作・解凍ミスが起きない。</li>
-    <li><b>ローカルプレビューは落ちる前提で：</b>セッションが長くなるとサーバーが停止する。エラー画面が来たら即 <code>preview_start</code> で再起動。</li>
-  </ol>
+<!-- ============================ OPTIONS ============================ -->
+<div class="options">
+  <h2>篤子さんへの今後の選択肢（チームで議論したい論点）</h2>
+
+  <table>
+    <thead>
+      <tr><th>選択肢</th><th>判定</th><th>説明</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>A. PCを買い替える（Apple Silicon機）</b></td>
+        <td class="judge-good">確実</td>
+        <td>M1〜M4チップなら Command Line Tools のインストール問題は起きない。今後Claude Codeを継続的に使うなら最短ルート。中古M1 MacBook Air なら6〜10万円台。</td>
+      </tr>
+      <tr>
+        <td>B. 現Macで根気よくデバッグを続ける</td>
+        <td class="judge-mid">不確実</td>
+        <td>講師の推奨ルート。ただし当日13通り試して詰んだ実績があり、解決保証なし。Apple側の配信が再開するのを待つ可能性も。</td>
+      </tr>
+      <tr>
+        <td>C. ブラウザ版 Claude（Claude.ai）でLP制作を続ける</td>
+        <td class="judge-mid">代替可</td>
+        <td>HTMLコードを生成 → コピー → ペライチ等にペースト の運用は可能。ただしファイル単位の管理・GitHub連携・複数ファイル編集はできない。「LP1枚程度」なら現実的。</td>
+      </tr>
+      <tr>
+        <td>D. 当面は あやに制作を依頼する</td>
+        <td class="judge-good">現状継続</td>
+        <td>今回のLP納品と同じ運用。Claude Code活用を本人が学ぶフェーズには入れない。</td>
+      </tr>
+      <tr>
+        <td>E. 別マシン（Windows/Chromebook）導入</td>
+        <td class="judge-bad">非推奨</td>
+        <td>Claude Code は Mac/Linux 中心の運用が多く、Windowsだと別の詰まりポイント発生。今のMacを使い続けるよりコストパフォーマンス悪い。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:18px;font-size:14px;">
+    <b>あやの所感：</b>篤子さんが「Claude Codeを自分で使えるようになりたい」と本気で考えているなら、Apple Silicon機への買い替えが結局いちばん早い。「LPだけ作れればいい」なら C か D で十分。判断は本人の学びたい温度感次第。
+  </p>
+</div>
+
+<!-- ============================ Q FOR INSTRUCTOR ============================ -->
+<div class="options" style="margin-top:30px;">
+  <h2>講師に追加で確認したいこと</h2>
+  <ul style="padding-left:20px;font-size:14px;line-height:2;">
+    <li>同じ症状（Apple Server エラー）の他の事例はあるか／macOS側の修正バージョンは出そうか</li>
+    <li>Command Line Tools を <b>手動で .pkg ダウンロード</b>する正規ルート（developer.apple.com）でも同じエラーが出るのか</li>
+    <li>ブラウザ版 Claude のみで「実用的なLP制作」がどこまで可能か（チーム内の事例）</li>
+    <li>もし買い替えるなら、どのMacが推奨か（M1/M2/M3/M4・Air/Pro・新品/中古）</li>
+  </ul>
+</div>
+
+<div class="footer-note">
+  関連ドキュメント：<a href="lp_design_journey.html">LP制作工程の記録（あや代行制作分）</a><br>
+  本ファイルの場所：<code>/Users/ayaka/ai_camp_cc/クライアント/篤子さん/journey_for_team/index.html</code>
 </div>
 
 </div>

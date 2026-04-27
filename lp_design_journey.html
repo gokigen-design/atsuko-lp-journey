@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>篤子さんLP制作の全工程｜チーム共有用</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF7F2;
+    --card: #ffffff;
+    --text: #2B2A27;
+    --soft: #6B5A50;
+    --accent: #8B7E6A;
+    --line: #E6DED5;
+    --error: #C73E3A;
+    --error-bg: #FCEDEC;
+    --success: #4F8A4F;
+    --success-bg: #EDF6ED;
+    --quote: #F1ECE3;
+    --code: #2B2A27;
+    --code-bg: #1F1E1B;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.03em;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 60px 24px 120px; }
+
+  header.top {
+    text-align: center;
+    padding: 40px 20px 60px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 60px;
+  }
+  header.top .label {
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.3em;
+    margin-bottom: 14px;
+  }
+  header.top h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  header.top p {
+    color: var(--soft);
+    font-size: 14px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  header.top .meta {
+    display: inline-flex;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 12px 24px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--soft);
+  }
+  header.top .meta b { color: var(--text); }
+
+  /* TOC */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px 28px;
+    margin-bottom: 60px;
+  }
+  .toc h2 {
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 14px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+  }
+  .toc li {
+    counter-increment: toc;
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .toc li:last-child { border-bottom: none; }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .toc a { color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+  .toc .tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 8px;
+    font-size: 11px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+  }
+  .tag.error { background: var(--error-bg); color: var(--error); }
+  .tag.success { background: var(--success-bg); color: var(--success); }
+
+  /* Step card */
+  .step {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 32px 32px 36px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .step.error-step { border-left: 4px solid var(--error); }
+  .step.success-step { border-left: 4px solid var(--success); }
+  .step-num {
+    position: absolute;
+    top: -14px;
+    left: 24px;
+    background: var(--text);
+    color: #fff;
+    padding: 4px 14px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .step.error-step .step-num { background: var(--error); }
+  .step.success-step .step-num { background: var(--success); }
+  .step h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 8px 0 18px;
+    line-height: 1.5;
+  }
+  .step .when {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+
+  .quote {
+    background: var(--quote);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.85;
+    border-radius: 0 4px 4px 0;
+  }
+  .quote .who {
+    display: block;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .did {
+    margin: 16px 0;
+  }
+  .did h3 {
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .did ul {
+    list-style: none;
+  }
+  .did ul li {
+    padding: 6px 0 6px 24px;
+    position: relative;
+    font-size: 14px;
+  }
+  .did ul li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  pre.code {
+    background: var(--code-bg);
+    color: #E8DDC8;
+    padding: 16px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.7;
+    font-family: 'SF Mono', Menlo, monospace;
+    margin: 14px 0;
+    letter-spacing: 0;
+  }
+  pre.code .cm { color: #8B7E6A; }
+  pre.code .err { color: #FF8E8E; }
+  pre.code .ok { color: #95D67A; }
+
+  .ss {
+    margin: 18px 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f4efe8;
+  }
+  .ss img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .ss .cap {
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--soft);
+    background: var(--card);
+    border-top: 1px solid var(--line);
+  }
+  .ss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0;
+  }
+  .ss-grid .ss { margin: 0; }
+
+  .alert {
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 16px 0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .alert.error {
+    background: var(--error-bg);
+    border-left: 4px solid var(--error);
+    color: #5a1715;
+  }
+  .alert.success {
+    background: var(--success-bg);
+    border-left: 4px solid var(--success);
+    color: #1f4720;
+  }
+  .alert b { font-weight: 700; }
+
+  table.changes {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  table.changes th,
+  table.changes td {
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.changes th {
+    background: var(--quote);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+  }
+
+  .final {
+    background: linear-gradient(135deg, #2B2A27 0%, #4A4540 100%);
+    color: #fff;
+    border-radius: 8px;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .final h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .final .url {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 14px 24px;
+    border-radius: 4px;
+    margin: 8px 0;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 13px;
+    color: #E8DDC8;
+    word-break: break-all;
+  }
+  .final a { color: #E8DDC8; text-decoration: underline; }
+  .final p { color: #d8d3cb; font-size: 14px; margin-top: 14px; }
+
+  .lessons {
+    background: var(--quote);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .lessons h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .lessons ol {
+    padding-left: 20px;
+    font-size: 14px;
+  }
+  .lessons ol li {
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 30px 16px 80px; }
+    header.top h1 { font-size: 22px; }
+    .step { padding: 24px 20px 28px; }
+    .step h2 { font-size: 17px; }
+    .ss-grid { grid-template-columns: 1fr; }
+    pre.code { font-size: 11px; }
+    header.top .meta { flex-direction: column; gap: 6px; padding: 14px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="label">PROJECT WALKTHROUGH</div>
+  <h1>篤子さんLP制作の全工程<br><span style="font-size:16px;color:var(--soft);font-weight:400;">— 制作開始から公開URL発行までのすべて —</span></h1>
+  <p>クライアント：長岡篤子さま（パーソナルスタイリスト・40〜50代女性向け）。<br>本ドキュメントは制作中の判断・つまずき・解決策をすべて時系列で記録したものです。</p>
+  <div class="meta">
+    <span><b>制作期間：</b>2026/04/27（同日内）</span>
+    <span><b>納品形式：</b>GitHub Pages</span>
+    <span><b>使用ツール：</b>Claude Code / GitHub / gh CLI</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#s1">クライアントフォルダの作成</a></li>
+    <li><a href="#s2">LP原稿（テキスト）受領</a></li>
+    <li><a href="#s3">v1：CELINE/STORY風の初稿LPを構築</a></li>
+    <li><a href="#s4">大理石ラグジュアリー版への方向転換依頼</a></li>
+    <li><a href="#s5">v2：マーブル＋ゴールドの高級版を構築</a></li>
+    <li><a href="#s6">「v2は好みではない、v1に戻して」<span class="tag error">PIVOT</span></a></li>
+    <li><a href="#s7">bd.jpg（実物大理石画像）をFV背景に統合</a></li>
+    <li><a href="#s8">people.png（女性シルエット）をビジュアル枠に統合</a></li>
+    <li><a href="#s9">完成URL要請 → サーバー停止エラー<span class="tag error">ERROR</span></a></li>
+    <li><a href="#s10">プレビューサーバーを再起動</a></li>
+    <li><a href="#s11">「篤子さんがモデリングしたい」共有方法を検討</a></li>
+    <li><a href="#s12">GitHub Pages公開：誤ってlp.htmlを削除<span class="tag error">CRITICAL</span></a></li>
+    <li><a href="#s13">git checkoutで復旧</a></li>
+    <li><a href="#s14">index.htmlへリネーム → リモート作成 → push</a></li>
+    <li><a href="#s15">GitHub Pages有効化・公開URL発行<span class="tag success">DONE</span></a></li>
+  </ol>
+</nav>
+
+<!-- ============================ STEP 1 ============================ -->
+<section class="step" id="s1">
+  <div class="step-num">STEP 01</div>
+  <div class="when">— PROJECT START —</div>
+  <h2>クライアントフォルダの作成</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    こちら、新しく「クライアント」というフォルダの中にお名前を入れて、フォルダを作っておいてください。
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>「クライアント／篤子さん」フォルダを作成</li>
+      <li>制作物の置き場として運用開始</li>
+    </ul>
+  </div>
+  <pre class="code">$ mkdir -p "/Users/ayaka/ai_camp_cc/クライアント/篤子さん"</pre>
+</section>
+
+<!-- ============================ STEP 2 ============================ -->
+<section class="step" id="s2">
+  <div class="step-num">STEP 02</div>
+  <h2>LP原稿（テキスト）受領</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    LP文章 叩き台（セクション別）<br>
+    【ヒーロー】私史上いちばん好きな自分に出会えるスタイリングを<br>
+    【共感】クローゼットは満たされているのに、心は満たされない。<br>
+    【未来】こんなあなたへ／【サービス】ショッピング同行 ¥27,000〜<br>
+    【プロフィール】長岡篤子（ながおか あつこ）<br>
+    ……（全セクション原稿）
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>原稿を全セクションでHTML構成に落とし込み</li>
+      <li>ヒーロー／共感／未来／導線／サービス／プロフィール／声／FAQ／CTA／フッター の構成で固める</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ STEP 3 ============================ -->
+<section class="step" id="s3">
+  <div class="step-num">STEP 03</div>
+  <h2>v1：CELINE/STORY風の初稿LPを構築</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    HTMLでLPを作る（STORY/CELINE風デザイン）
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>カラー：ベージュ#FAF7F2／ダーク#2B2A27／アクセント#8B7E6A</li>
+      <li>明朝＋セリフ（Shippori Mincho／Cormorant Garamond）でSTORY誌の落ち着き感</li>
+      <li>IntersectionObserverでフェードイン。スマホ縦並び対応</li>
+      <li>ローカルサーバー（port 8120）で初稿プレビュー</li>
+    </ul>
+  </div>
+  <div class="ss">
+    <img src="screenshots/v1_first.jpg" alt="v1 first version preview">
+    <div class="cap">v1初稿のプレビュー（CELINE/STORY風・落ち着いたベージュトーン）</div>
+  </div>
+</section>
+
+<!-- ============================ STEP 4 ============================ -->
+<section class="step" id="s4">
+  <div class="step-num">STEP 04</div>
+  <h2>大理石ラグジュアリー版への方向転換依頼</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    こちらのようなベージュやゴールドなど、落ち着いたカラーを基盤として、大理石のような素材を入れ込んでほしいです。所々にゴールドなどのあしらいを使い、高級感と40-50代の女性に受け入れていただけるような美しいサイトにしてください。今、写真が入るところがとても少ないので、スタイリストらしい写真を散りばめるセクションをもうちょっと増やしてください。
+  </div>
+  <div class="ss">
+    <img src="screenshots/01_user_attached.jpg" alt="user reference image - marble luxury">
+    <div class="cap">あやが添付した参考画像（マーブル＋ゴールドのラグジュアリーな世界観）</div>
+  </div>
+</section>
+
+<!-- ============================ STEP 5 ============================ -->
+<section class="step" id="s5">
+  <div class="step-num">STEP 05</div>
+  <h2>v2：マーブル＋ゴールドの高級版を構築</h2>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>CSSラジアルグラデ＋SVGノイズで大理石風テクスチャを再現</li>
+      <li>ゴールド罫線・装飾シンボル・モノグラム的バッジを追加</li>
+      <li>写真枠（ポラロイド風／縦長／円形クロップ）を増設</li>
+    </ul>
+  </div>
+  <div class="ss">
+    <img src="screenshots/v2_luxury_rejected.jpg" alt="v2 luxury rejected version">
+    <div class="cap">v2マーブル＋ゴールド版（このあと不採用となります）</div>
+  </div>
+</section>
+
+<!-- ============================ STEP 6 ============================ -->
+<section class="step error-step" id="s6">
+  <div class="step-num">PIVOT 06</div>
+  <h2>「v2は好みではない、v1に戻して」</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    こちらのデザインはあんまり好みではないので、1個目のものに戻してください。こちらはもう使いません。
+  </div>
+  <div class="alert error">
+    <b>判断ポイント：</b>「方向性が違う」と判明した時点で迷わずv1へロールバック。CSSの装飾や追加セクションは捨て、初稿の構成だけを残しました。
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>lp.html をv1（CELINE/STORY風）に書き戻し</li>
+      <li>マーブル装飾・ゴールド罫線・追加写真枠は全て削除</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ STEP 7 ============================ -->
+<section class="step" id="s7">
+  <div class="step-num">STEP 07</div>
+  <h2>bd.jpg（実物大理石画像）をFV背景に統合</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    あつこさんのフォルダ内に「BD」というJPEGの大理石の背景画像を入れました。これをファーストビューの背景として設定してください。
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>v1の構成を維持したまま、ヒーローの背景に bd.jpg を敷く</li>
+      <li>テキストの可読性を担保するため、白の半透明グラデーションをオーバーレイ</li>
+    </ul>
+  </div>
+<pre class="code">.hero {
+  background-image: url('bd.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(250, 247, 242, 0.55) 0%,
+    rgba(250, 247, 242, 0.35) 100%);
+}</pre>
+  <div class="ss">
+    <img src="screenshots/v3_with_bd.jpg" alt="v3 with bd.jpg as hero">
+    <div class="cap">FV背景に実物の大理石画像（bd.jpg）が入った状態</div>
+  </div>
+</section>
+
+<!-- ============================ STEP 8 ============================ -->
+<section class="step" id="s8">
+  <div class="step-num">STEP 08</div>
+  <h2>people.png（女性シルエット）をビジュアル枠に統合</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    して、写真を入れるところに、フォルダー内のPeopleという画像を入れ込んでください。
+  </div>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>透過PNG（people.png）をヒーローのビジュアル枠＋プロフィールセクションに配置</li>
+      <li>背景色をベージュトーンに合わせ、シルエットが浮かないよう調整</li>
+    </ul>
+  </div>
+<pre class="code">.hero-visual {
+  background-color: #E8E1D3;
+  background-image: url('people.png'),
+                    linear-gradient(135deg, #E8E1D3 0%, #D4C9B3 100%);
+  background-size: 110% auto, cover;
+  background-position: center bottom, center;
+}</pre>
+  <div class="ss">
+    <img src="screenshots/v4_with_people.jpg" alt="v4 with people.png">
+    <div class="cap">people.png（透過シルエット）が入った最終状態</div>
+  </div>
+</section>
+
+<!-- ============================ STEP 9 ============================ -->
+<section class="step error-step" id="s9">
+  <div class="step-num">ERROR 09</div>
+  <h2>完成URL要請 → サーバー停止エラー</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    篤子さんの決まったLPのリンク教えて
+  </div>
+  <p style="margin:14px 0;font-size:14px;">ローカルプレビュー（http://localhost:8120/）のURLを共有しようとしたところ、画面側で接続エラーが発生：</p>
+  <div class="ss">
+    <img src="screenshots/04_user_attached.png" alt="ERR_CONNECTION_REFUSED screenshot">
+    <div class="cap">あやから共有された画面：ERR_CONNECTION_REFUSED</div>
+  </div>
+  <div class="alert error">
+    <b>原因：</b>ローカルのPython http.serverプロセスが落ちていた（セッションが長くなるとMCPプレビューサーバーは停止することがある）。
+  </div>
+</section>
+
+<!-- ============================ STEP 10 ============================ -->
+<section class="step" id="s10">
+  <div class="step-num">STEP 10</div>
+  <h2>プレビューサーバーを再起動</h2>
+  <div class="did">
+    <h3>やったこと</h3>
+    <ul>
+      <li>MCPの <code>preview_start</code> で「atsuko-lp」を再起動</li>
+      <li>新しいserverIdを発行・port 8120でローカル復活</li>
+    </ul>
+  </div>
+  <pre class="code"><span class="cm"># MCP Claude_Preview経由</span>
+preview_start({ name: "atsuko-lp" })
+<span class="ok">→ serverId: 27f1c2c1-72ea-46dd-a4f3-967a060326fe</span>
+<span class="ok">→ http://localhost:8120/lp.html</span></pre>
+</section>
+
+<!-- ============================ STEP 11 ============================ -->
+<section class="step" id="s11">
+  <div class="step-num">STEP 11</div>
+  <h2>「篤子さんがモデリングしたい」共有方法を検討</h2>
+  <div class="quote">
+    <span class="who">あや</span>
+    篤子さんがこれをモデリングして作りたいみたいなのだけど、何をお渡しすれば良いかな？おそらく篤子さんはブラウザなのでフォルダとかの共有がよくわからん
+  </div>
+  <div class="did">
+    <h3>提示した3案</h3>
+    <ul>
+      <li><b>A：GitHub Pagesで公開 → URL共有</b>（ブラウザだけで完結）</li>
+      <li>B：ZIPで素材一式を渡す（解凍 → ダブルクリック）</li>
+      <li>C：Vercelデプロイ＋ギガファイル便で素材送付</li>
+    </ul>
+  </div>
+  <div class="quote">
+    <span class="who">あや</span>
+    aを作って
+  </div>
+</section>
+
+<!-- ============================ STEP 12 ============================ -->
+<section class="step error-step" id="s12">
+  <div class="step-num">CRITICAL 12</div>
+  <h2>GitHub Pages公開：誤ってlp.htmlを削除</h2>
+  <div class="did">
+    <h3>意図していた作業</h3>
+    <ul>
+      <li>lp.html → index.html にリネーム（GitHub Pagesは index.html を自動配信するため）</li>
+    </ul>
+  </div>
+  <pre class="code"><span class="cm"># 実行してしまったコマンド列（問題あり）</span>
+mv lp.html index.html.bak
+cp index.html.bak index.html
+<span class="cm"># …別作業を挟んだあと…</span>
+rm -f index.html.bak index.html  <span class="err">← lp.htmlの実体を消失</span>
+git mv lp.html index.html        <span class="err">← fatal: bad source, source=lp.html</span></pre>
+  <div class="alert error">
+    <b>何が起きたか：</b>「mv → cp → rm」の流れで、本体ファイル（lp.html）の実体ごと削除してしまった。次の git mv が「lp.htmlが存在しない」というエラーで失敗。
+  </div>
+  <div class="alert error">
+    <b>教訓：</b>リネームは <code>git mv lp.html index.html</code> 一発で済む。中間ファイル（.bak）は作らない。バックアップを取りたい場合も <code>cp</code> でなく <code>git mv</code> 後にcommitしてHEADから戻せる状態にする。
+  </div>
+</section>
+
+<!-- ============================ STEP 13 ============================ -->
+<section class="step success-step" id="s13">
+  <div class="step-num">RECOVERY 13</div>
+  <h2>git checkoutで復旧</h2>
+  <div class="did">
+    <h3>復旧手順</h3>
+    <ul>
+      <li>幸い直前に <code>git init</code> と最初のcommit（hash: 6a2fb4b）を済ませていた</li>
+      <li><code>git checkout lp.html</code> でHEADから実体を復元</li>
+      <li>3点（lp.html / bd.jpg / people.png）が揃っていることを確認</li>
+    </ul>
+  </div>
+<pre class="code">$ git checkout lp.html
+<span class="ok">Updated 1 path from the index</span>
+
+$ ls
+bd.jpg    lp.html    people.png</pre>
+  <div class="alert success">
+    <b>救われた理由：</b>事前に <code>git init</code> → 初回コミットを済ませていたため、ワーキングディレクトリで消えてもインデックスに実体が残っていた。<b>「とりあえずgit init＋初回commit」は最強のセーフティネット。</b>
+  </div>
+</section>
+
+<!-- ============================ STEP 14 ============================ -->
+<section class="step" id="s14">
+  <div class="step-num">STEP 14</div>
+  <h2>index.htmlへリネーム → リモート作成 → push</h2>
+<pre class="code">$ git mv lp.html index.html
+$ git commit -m "Rename to index.html for GitHub Pages"
+<span class="ok">[main 86da98e] Rename to index.html for GitHub Pages</span>
+
+$ gh repo create gokigen-design/atsuko-nagaoka-lp --public --source=. --push
+<span class="ok">https://github.com/gokigen-design/atsuko-nagaoka-lp</span>
+<span class="ok">[new branch] HEAD -> main</span></pre>
+  <div class="did">
+    <h3>ポイント</h3>
+    <ul>
+      <li>所属org：<b>gokigen-design</b>（あやの公開用GitHub組織）</li>
+      <li>リポジトリ名：<b>atsuko-nagaoka-lp</b>（クライアント名のローマ字）</li>
+      <li>1コマンドでリモート作成＋pushまで完了</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ STEP 15 ============================ -->
+<section class="step success-step" id="s15">
+  <div class="step-num">DONE 15</div>
+  <h2>GitHub Pages有効化・公開URL発行</h2>
+<pre class="code">$ gh api -X POST /repos/gokigen-design/atsuko-nagaoka-lp/pages \
+    -f "source[branch]=main" -f "source[path]=/"
+<span class="ok">{
+  "html_url": "https://gokigen-design.github.io/atsuko-nagaoka-lp/",
+  "build_type": "legacy",
+  "https_enforced": true
+}</span></pre>
+  <div class="alert success">
+    <b>反映時間：</b>初回ビルドは1〜2分。以降は <code>git push</code> するたびに自動デプロイ。
+  </div>
+</section>
+
+<!-- ============================ FINAL ============================ -->
+<div class="final">
+  <h2>納品URL（公開済み）</h2>
+  <div class="url"><a href="https://gokigen-design.github.io/atsuko-nagaoka-lp/" target="_blank">https://gokigen-design.github.io/atsuko-nagaoka-lp/</a></div>
+  <p>リポジトリ：<a href="https://github.com/gokigen-design/atsuko-nagaoka-lp" target="_blank">github.com/gokigen-design/atsuko-nagaoka-lp</a></p>
+  <p>クライアントへはURLだけ送ればブラウザで完結します。</p>
+</div>
+
+<!-- ============================ LESSONS ============================ -->
+<div class="lessons">
+  <h2>チームに共有したい教訓</h2>
+  <ol>
+    <li><b>方向性のピボットは早く・きれいに：</b>v2が刺さらなかった時点で即v1ロールバック。装飾は思い切って捨てる。</li>
+    <li><b>素材は段階的に統合する：</b>まず構成→次に背景画像（bd.jpg）→次に人物画像（people.png）の順。一気に入れると問題切り分けができない。</li>
+    <li><b>「git initと最初のcommit」を最初に済ませる：</b>これが今回の救命綱だった。誤削除してもHEADから戻せる。</li>
+    <li><b>リネームは <code>git mv</code> 一発：</b>mv→cp→rmの中間ファイル運用は事故のもと。</li>
+    <li><b>クライアントがブラウザ派なら GitHub Pages URL がベスト：</b>ZIP配布より「URLだけ」の方が誤操作・解凍ミスが起きない。</li>
+    <li><b>ローカルプレビューは落ちる前提で：</b>セッションが長くなるとサーバーが停止する。エラー画面が来たら即 <code>preview_start</code> で再起動。</li>
+  </ol>
+</div>
+
+</div>
+</body>
+</html>
