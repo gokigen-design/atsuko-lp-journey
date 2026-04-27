@@ -417,6 +417,7 @@
     <li><a href="#s11">F3キーでMission Controlを開いて隠れたポップアップを探す</a><span class="tag error">FAIL</span></li>
     <li><a href="#s12">Homebrew（brew install git）の検討</a><span class="tag error">不可</span></li>
     <li><a href="#s13">方針転換：当日の作業を別ツール（Google）に切り替え</a><span class="tag success">PIVOT</span></li>
+    <li><a href="#s14-new">【NEW】Claude Desktopが新ルートを提示（4/26）</a><span class="tag warn">未トライ</span></li>
   </ol>
 </nav>
 
@@ -656,6 +657,72 @@ https://central.github.com/deployments/desktop/desktop/latest/<span class="yel">
   </div>
 </section>
 
+<!-- ============================ NOT TRIED ============================ -->
+<section class="step warn-step">
+  <div class="step-num">NOT TRIED</div>
+  <h2>【未トライ】git-scm.com から Git本体を直接ダウンロード</h2>
+  <div class="alert warn">
+    <b>正直に書いておきたいこと：</b>4/18当日のログを精査した結果、「<b>git-scm.com の公式 .pkg インストーラーを直接ダウンロードして入れる</b>」というルートは<b>提案ベースまでで、実際には実行されていません</b>でした。代わりにGitHub Desktopの直接ダウンロードに流れたため、結果的にはターミナルからの <code>git</code> コマンドが使える状態にはなりませんでした。
+  </div>
+  <div class="did">
+    <h3>GitHub Desktop と git-scm.com .pkg の違い</h3>
+    <ul>
+      <li><b>GitHub Desktop（4/18に試した）</b>：GUIアプリ。Git本体はアプリ内部用で、ターミナルからの <code>git --version</code> では認識されない</li>
+      <li><b>git-scm.com の .pkg（未トライ）</b>：ターミナル用の純粋なGitバイナリを <code>/usr/local/bin/git</code> に置く。<b>xcode-selectを経由しない</b>のでApple Serverエラーは原理的に起きない</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ STEP 14 NEW LEAD ============================ -->
+<section class="step success-step" id="s14-new">
+  <div class="step-num">NEW LEAD ・ 2026/04/26</div>
+  <h2>Claude Desktopアプリで新ルートが提示された</h2>
+  <div class="quote">
+    <span class="who">篤子さん</span>
+    今日また「このような画面でどうすればいいか」という相談がありました。
+  </div>
+  <div class="ss">
+    <img src="screenshots_intel_mac/10_L605_claude_desktop_dialog.png" alt="Claude Desktop dialog: Git install required">
+    <div class="cap">2026/04/26、篤子さんから共有された Claude Desktop アプリの画面。「Gitをインストール」ダイアログが出ている</div>
+  </div>
+  <div class="did">
+    <h3>ダイアログの中身</h3>
+    <ul>
+      <li>タイトル：<b>Gitをインストール</b></li>
+      <li>本文：「ローカルセッションを実行するには、Gitが必要です。ターミナルで <code>xcode-select --install</code> を実行してコマンドラインツールをインストールするか、<b>Gitを直接ダウンロード</b>してください。または、<b>リモート環境に切り替え</b>てください。」</li>
+      <li>ボタン：「今はしない」 / <b>「Gitをダウンロード」</b></li>
+    </ul>
+  </div>
+  <div class="alert success">
+    <b>注目ポイント：</b>「Gitをダウンロード」の黒いボタンは、おそらく <b>git-scm.com（または公式ミラー）の .pkg インストーラー</b>に直接アクセスするルート。これは4/18に提案されながら実行されなかった「未トライの本命ルート」と一致します。
+  </div>
+  <div class="alert warn">
+    <b>もう一つの選択肢：</b>ダイアログ内の「リモート環境に切り替え」も未トライ。Claude のクラウド側で実行するモードと推測され、Gitなしで使い始められる可能性があります（ただしローカルファイル直接編集はできない見込み）。
+  </div>
+</section>
+
+<!-- ============================ NEXT ACTION ============================ -->
+<section class="step warn-step">
+  <div class="step-num">NEXT ACTION</div>
+  <h2>篤子さんに依頼したいこと</h2>
+  <div class="did">
+    <h3>① まずダイアログ内の「Gitをダウンロード」ボタンを押してもらう</h3>
+    <ul>
+      <li>ダウンロードされた <code>.pkg</code> ファイル（git-2.x.x-intel-universal-mavericks.pkg のような名前）をダブルクリック</li>
+      <li>画面の指示通りインストールを進める（パスワード入力あり）</li>
+      <li>完了後、ターミナルで <code>git --version</code> を実行 → バージョン番号が出れば成功</li>
+    </ul>
+    <h3>② うまくいかなかった場合の記録</h3>
+    <ul>
+      <li>エラー画面のスクショを送ってもらう</li>
+      <li>「インストール」ボタンを押せたか／途中で止まったかを確認</li>
+    </ul>
+  </div>
+  <div class="alert warn">
+    <b>チームメイトへの共有趣旨：</b>「13通り試して全部ダメだった」だけでなく、<b>もう1ルート未消化のものが残っており、Claude Desktop側からそれを誘導するUIが今出ている</b>という状況。買い替え判断の前に、この最後のルートだけは試す価値があります。
+  </div>
+</section>
+
 <!-- ============================ STEP 13 ============================ -->
 <section class="step success-step" id="s13">
   <div class="step-num">PIVOT 13</div>
@@ -696,8 +763,9 @@ https://central.github.com/deployments/desktop/desktop/latest/<span class="yel">
 <div class="verdict">
   <h2>当日の結論サマリー</h2>
   <div class="verdict-body">
-    <p><b>13通りの対処を試みたが、いずれもAppleのソフトウェアアップデートサーバーが Command Line Tools を配信してくれないことに起因する根本問題に阻まれた。</b></p>
+    <p><b>4/18当日は13通りの対処を試みたが、いずれもAppleのソフトウェアアップデートサーバーが Command Line Tools を配信してくれないことに起因する根本問題に阻まれた。</b></p>
     <p style="margin-top:14px;">原因はユーザーの操作ミスでも、Claude Code側の問題でもなく、<b>Apple側のサーバーが Intel × macOS Tahoe 26.0.1 という組み合わせに必要なパッケージを配信していない</b>こと。これは個人の努力では解決不可能な領域。</p>
+    <p style="margin-top:14px;color:#F2D27A;"><b>ただし更新あり（4/26）：</b>Claude Desktop アプリのダイアログから「Gitを直接ダウンロード」する未消化ルートが提示されました（上記NEW LEAD参照）。git-scm.comの公式 .pkg を直接入れるこのルートだけは試す価値があり、買い替え判断の前にもう一段の確認が必要です。</p>
   </div>
 </div>
 
